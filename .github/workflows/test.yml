@@ -13,4 +13,4 @@ jobs:
     runs-on: ubuntu-slim
     steps:
       - name: Reads workflow metadata
-        run: echo {{ github }}
+        run: echo ${{ github }}
