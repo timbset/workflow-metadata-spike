@@ -26,10 +26,6 @@ jobs:
           echo "job-monitor-labels=$(yq "$root.job-monitor-labels | join(\",\")" $file)" >> $GITHUB_OUTPUT
           echo "force-run-labels=$(yq "$root.force-run-labels | join(\",\")" $file)" >> $GITHUB_OUTPUT
 
-      - name: Reads workflow metadata
-        id: metadata2
-        run: echo $meta | yq '.runs-on' -
-
       - name: Print metadata
         run: |
           echo "Workflow metadata:"
