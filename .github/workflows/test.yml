@@ -22,9 +22,7 @@ jobs:
           root='.workflows["${{ github.workflow }}"]'
           meta=$(yq $root $file)
           echo $meta
-#          echo $meta | yq '.runs-on' -
-#          runsOn=$(echo $meta | yq '.runs-on | join(",")' -)
-#          echo "runs-on=$(echo $meta | yq '.runs-on' -)" >> $GITHUB_OUTPUT
+          echo "runs-on=$(yq "$root.runs-on" $file)" >> $GITHUB_OUTPUT
 #          echo "job-monitor-labels=$(echo $meta | yq '.job-monitor-labels' -)" >> $GITHUB_OUTPUT
 #          echo "force-run-labels=$(echo $meta | yq '.force-run-labels' -)" >> $GITHUB_OUTPUT
 
