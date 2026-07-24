@@ -1,0 +1,22 @@
+name: test.yml
+
+metadata:
+  values:
+    - 1
+    - 2
+    - 3
+
+on:
+  push:
+    branches:
+      - '**/*'
+  pull_request:
+    branches:
+      - '**/*'
+
+jobs:
+  first: 
+    runs-on: ubuntu-slim
+    steps:
+      - name: Reads workflow metadata
+        run: echo {{ github }}
