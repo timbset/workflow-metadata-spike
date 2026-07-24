@@ -16,4 +16,6 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Reads workflow metadata
-        run: yq '.' ${{ github.workspace }}/.github/workflows-metadata.yml
+        run: |
+          meta=$(yq '.workflows["${{ github.workflow }}"]' ${{ github.workspace }}/.github/workflows-metadata.yml)
+          echo "$meta"
