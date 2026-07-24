@@ -23,8 +23,8 @@ jobs:
           meta=$(yq $root $file)
           echo $meta
           echo "runs-on=$(yq "$root.runs-on | join(\",\")" $file)" >> $GITHUB_OUTPUT
-#          echo "job-monitor-labels=$(echo $meta | yq '.job-monitor-labels' -)" >> $GITHUB_OUTPUT
-#          echo "force-run-labels=$(echo $meta | yq '.force-run-labels' -)" >> $GITHUB_OUTPUT
+          echo "job-monitor-labels=$(yq "$root.job-monitor-labels | join(\",\")" $file)" >> $GITHUB_OUTPUT
+          echo "force-run-labels=$(yq "$root.force-run-labels | join(\",\")" $file)" >> $GITHUB_OUTPUT
 
       - name: Reads workflow metadata
         id: metadata2
