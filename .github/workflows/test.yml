@@ -18,9 +18,11 @@ jobs:
       - name: Reads workflow metadata
         id: metadata
         run: |
-          meta=$(yq '.workflows["${{ github.workflow }}"]' ${{ github.workspace }}/.github/workflows-metadata.yml)
+          file=${{ github.workspace }}/.github/workflows-metadata.yml
+          root=.workflows["${{ github.workflow }}"]
+          meta=$(yq "$root" $file)
           echo $meta
-          echo $meta | yq '.runs-on' -
+#          echo $meta | yq '.runs-on' -
 #          runsOn=$(echo $meta | yq '.runs-on | join(",")' -)
 #          echo "runs-on=$(echo $meta | yq '.runs-on' -)" >> $GITHUB_OUTPUT
 #          echo "job-monitor-labels=$(echo $meta | yq '.job-monitor-labels' -)" >> $GITHUB_OUTPUT
