@@ -1,0 +1,12 @@
+workflows:
+  test.yml:
+    runs-on:
+      - pull-request
+      - feature
+      - schedule
+    job-monitor-labels:
+      - DP.Web
+      - DP.Desktop
+    force-run-labels:
+      - run-VisualTests-Reports
+      - run-VisualTests-Dashboards

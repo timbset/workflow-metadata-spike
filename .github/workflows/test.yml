@@ -1,11 +1,5 @@
 name: test.yml
 
-metadata:
-  values:
-    - 1
-    - 2
-    - 3
-
 on:
   push:
     branches:
