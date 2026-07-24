@@ -27,7 +27,7 @@ jobs:
 
       - name: Reads workflow metadata
         id: metadata2
-        run: echo $meta | yq '.runs-on | join(",")' -
+        run: echo $meta | yq '.runs-on' -
 
       - name: Print metadata
         run: |
