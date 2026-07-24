@@ -16,6 +16,16 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Reads workflow metadata
+        id: metadata
         run: |
           meta=$(yq '.workflows["${{ github.workflow }}"]' ${{ github.workspace }}/.github/workflows-metadata.yml)
-          echo "$meta"
+          echo "runs-on=$(echo "$meta" | yq '.runs-on | join(",")')" >> $GITHUB_OUTPUT
+          echo "job-monitor-labels=$(echo "$meta" | yq '.job-monitor-labels')" >> $GITHUB_OUTPUT
+          echo "force-run-labels=$(echo "$meta" | yq '.force-run-labels')" >> $GITHUB_OUTPUT
+
+      - name: Print metadata
+        run: |
+          echo "Workflow metadata:"
+          echo "Runs on: ${{ steps.metadata.outputs.runs-on }}"
+          echo "Job monitor labels: ${{ steps.metadata.outputs.job-monitor-labels }}"
+          echo "Force run labels: ${{ steps.metadata.outputs.force-run-labels }}"
