@@ -49,6 +49,6 @@ runs:
     - shell: bash
       run: |
         echo "Gate results:"
-        echo "  shouldRun: ${{ steps.evaluate.outputs.should-run }}"
+        echo "  should-run: ${{ steps.evaluate.outputs.should-run }}"
         echo "  target: ${{ steps.evaluate.outputs.target }}"
-        echo "  forceLabels: ${{ steps.evaluate.outputs.force-labels }}"
+        echo "  force-labels: ${{ steps.evaluate.outputs.force-labels }}"
