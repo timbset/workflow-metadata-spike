@@ -18,17 +18,17 @@ inputs:
     default: ''
 
 outputs:
-  shouldRun:
+  should-run:
     description: Final decision
-    value: ${{ steps.evaluate.outputs.shouldRun }}
+    value: ${{ steps.evaluate.outputs.should-run }}
 
-  runsFor:
+  target:
     description: JSON map of runs-for conditions
-    value: ${{ steps.evaluate.outputs.runsFor }}
+    value: ${{ steps.evaluate.outputs.target }}
 
-  forceLabels:
+  force-labels:
     description: JSON map of force label matches
-    value: ${{ steps.evaluate.outputs.forceLabels }}
+    value: ${{ steps.evaluate.outputs.force-labels }}
 
 runs:
   using: composite
@@ -48,7 +48,7 @@ runs:
 
     - shell: bash
       run: |
-        echo "Gate evaluation results:"
-        echo "  shouldRun: ${{ steps.evaluate.outputs.shouldRun }}"
-        echo "  runsFor: ${{ steps.evaluate.outputs.runsFor }}"
-        echo "  forceLabels: ${{ steps.evaluate.outputs.forceLabels }}"
+        echo "Gate results:"
+        echo "  shouldRun: ${{ steps.evaluate.outputs.should-run }}"
+        echo "  target: ${{ steps.evaluate.outputs.target }}"
+        echo "  forceLabels: ${{ steps.evaluate.outputs.force-labels }}"
