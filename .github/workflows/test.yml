@@ -83,25 +83,25 @@ jobs:
             run-TestsB
             
       - name: Run Tests A on task
-        if: steps.gate-all.outputs.should-run
+        if: fromJSON(steps.gate-all.outputs.should-run)
         run: echo "Running Tests A on task"
         
       - name: Run Tests B on task
-        if: steps.gate-all.outputs.should-run
+        if: fromJSON(steps.gate-all.outputs.should-run)
         run: echo "Running Tests A on task"
 
       - name: Run Tests A on feature
-        if: steps.gate-feature.outputs.should-run
+        if: fromJSON(steps.gate-feature.outputs.should-run)
         run: echo "Running Tests A on feature"
 
       - name: Run Tests B on feature
-        if: steps.gate-feature.outputs.should-run
+        if: fromJSON(steps.gate-feature.outputs.should-run)
         run: echo "Running Tests B on feature"
 
       - name: Run Tests A on main
-        if: steps.gate-main.outputs.should-run
+        if: fromJSON(steps.gate-main.outputs.should-run)
         run: echo "Running Tests A on main"
 
       - name: Run Tests B on main
-        if: steps.gate-main.outputs.should-run
+        if: fromJSON(steps.gate-main.outputs.should-run)
         run: echo "Running Tests B on main"
