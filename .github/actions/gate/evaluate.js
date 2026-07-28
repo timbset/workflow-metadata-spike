@@ -22,22 +22,22 @@ const runsFor = {};
 const forceLabels = {};
 
 runsFor["main"] = false;
-runsFor["feature-branch"] = false;
-runsFor["pull-request"] = false;
+runsFor["feature"] = false;
+runsFor["task"] = false;
 
 if (refName === "main") {
     runsFor["main"] = true;
 }
 
 if (isFeatureBranch(refName)) {
-    runsFor["feature-branch"] = true;
+    runsFor["feature"] = true;
 }
 
 if (
     eventName === "pull_request" &&
     (baseRef === "main" || isFeatureBranch(baseRef))
 ) {
-    runsFor["pull-request"] = true;
+    runsFor["task"] = true;
 }
 
 let branchCondition = false;

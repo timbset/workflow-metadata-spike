@@ -6,8 +6,8 @@ inputs:
     description: |
       Multiline list:
       - main
-      - feature-branch
-      - pull-request
+      - feature
+      - task
     required: false
     default: ''
 
