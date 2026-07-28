@@ -46,7 +46,8 @@ runs:
       run: |
         node "${{ github.action_path }}/evaluate.js" >> "$GITHUB_OUTPUT"
 
-    - run: |
+    - shell: bash
+      run: |
         echo "Gate evaluation results:"
         echo "  shouldRun: ${{ steps.evaluate.outputs.shouldRun }}"
         echo "  runsFor: ${{ steps.evaluate.outputs.runsFor }}"
