@@ -1,0 +1,47 @@
+name: Check gate conditions
+description: Evaluate whether workflow should run based on branch/PR and force labels
+
+inputs:
+  target:
+    description: |
+      Multiline list:
+      - main
+      - feature-branch
+      - pull-request
+    required: false
+    default: ''
+
+  force-labels:
+    description: |
+      Multiline list of labels which can force execution
+    required: false
+    default: ''
+
+outputs:
+  shouldRun:
+    description: Final decision
+    value: ${{ steps.evaluate.outputs.shouldRun }}
+
+  runsFor:
+    description: JSON map of runs-for conditions
+    value: ${{ steps.evaluate.outputs.runsFor }}
+
+  forceLabels:
+    description: JSON map of force label matches
+    value: ${{ steps.evaluate.outputs.forceLabels }}
+
+runs:
+  using: composite
+
+  steps:
+    - id: evaluate
+      shell: bash
+      env:
+        RUNS_FOR: ${{ inputs.runs-for }}
+        FORCE_LABELS: ${{ inputs.force-labels }}
+        EVENT_NAME: ${{ github.event_name }}
+        REF_NAME: ${{ github.ref_name }}
+        BASE_REF: ${{ github.base_ref }}
+        EVENT_PATH: ${{ github.event_path }}
+      run: |
+        node "${{ github.action_path }}/evaluate.js" >> "$GITHUB_OUTPUT"
