@@ -9,7 +9,7 @@ inputs:
       - feature
       - task
     required: false
-    default: ''
+    default: 'main'
 
   force-labels:
     description: |

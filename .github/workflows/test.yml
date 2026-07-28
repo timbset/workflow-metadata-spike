@@ -9,7 +9,8 @@ on:
       - '**/*'
 
 jobs:
-  first:
+  metadata:
+    name: Reads workflow metadata
     if: false
     runs-on: ubuntu-slim
     steps:
@@ -42,13 +43,15 @@ jobs:
           steps.metadata.outputs.run-label == 'true'
         run: echo "Tests executed"
 
-  second:
+  action-gate:
+    name: Action Gate
     runs-on: ubuntu-slim
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         
-      - name: Gate
+      - name: Gate All
+        id: gate-all
         uses: ./.github/actions/gate
         with:
           target: |
@@ -56,5 +59,49 @@ jobs:
             feature
             task
           force-labels: |
-            run-VisualTests-Reports
-            run-VisualTests-Dashboards
+            run-TestsA
+            run-TestsB
+            
+      - name: Gate Feature
+        id: gate-feature
+        uses: ./.github/actions/gate
+        with:
+          target: |
+            main
+            feature
+          force-labels: |
+            run-TestsA
+            run-TestsB
+
+      - name: Gate Main
+        id: gate-main
+        uses: ./.github/actions/gate
+        with:
+          target: main
+          force-labels: |
+            run-TestsA
+            run-TestsB
+            
+      - name: Run Tests A on task
+        if: steps.gate-all.outputs.should-run
+        run: echo "Running Tests A on task"
+        
+      - name: Run Tests B on task
+        if: steps.gate-all.outputs.should-run
+        run: echo "Running Tests A on task"
+
+      - name: Run Tests A on feature
+        if: steps.gate-feature.outputs.should-run
+        run: echo "Running Tests A on feature"
+
+      - name: Run Tests B on feature
+        if: steps.gate-feature.outputs.should-run
+        run: echo "Running Tests B on feature"
+
+      - name: Run Tests A on main
+        if: steps.gate-main.outputs.should-run
+        run: echo "Running Tests A on main"
+
+      - name: Run Tests B on main
+        if: steps.gate-main.outputs.should-run
+        run: echo "Running Tests B on main"
