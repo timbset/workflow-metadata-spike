@@ -45,3 +45,9 @@ runs:
         EVENT_PATH: ${{ github.event_path }}
       run: |
         node "${{ github.action_path }}/evaluate.js" >> "$GITHUB_OUTPUT"
+
+    - run: |
+        echo "Gate evaluation results:"
+        echo "  shouldRun: ${{ steps.evaluate.outputs.shouldRun }}"
+        echo "  runsFor: ${{ steps.evaluate.outputs.runsFor }}"
+        echo "  forceLabels: ${{ steps.evaluate.outputs.forceLabels }}"
