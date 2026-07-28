@@ -2,7 +2,7 @@ const fs = require("node:fs");
 
 function parseMultiline(value) {
     return value
-        .split('\\n')
+        .split('\n')
         .map(x => x.trim())
         .filter(Boolean);
 }
