@@ -9,12 +9,13 @@ on:
       - '**/*'
 
 jobs:
-  first: 
+  first:
+    if: false
     runs-on: ubuntu-slim
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
       - name: Reads workflow metadata
         id: metadata
         run: |
@@ -25,6 +26,8 @@ jobs:
           echo "runs-on=$(yq "$root.runs-on | join(\",\")" $file)" >> $GITHUB_OUTPUT
           echo "job-monitor-labels=$(yq "$root.job-monitor-labels | join(\",\")" $file)" >> $GITHUB_OUTPUT
           echo "force-run-labels=$(yq "$root.force-run-labels | join(\",\")" $file)" >> $GITHUB_OUTPUT
+          echo "run-group=true" >> $GITHUB_OUTPUT
+          echo "run-label=true" >> $GITHUB_OUTPUT
 
       - name: Print metadata
         run: |
@@ -32,3 +35,23 @@ jobs:
           echo "Runs on: ${{ steps.metadata.outputs.runs-on }}"
           echo "Job monitor labels: ${{ steps.metadata.outputs.job-monitor-labels }}"
           echo "Force run labels: ${{ steps.metadata.outputs.force-run-labels }}"
+
+      - name: Run conditionally
+        if: |
+          steps.metadata.outputs.run-group == 'true' ||
+          steps.metadata.outputs.run-label == 'true'
+        run: echo "Tests executed"
+
+  second:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Gate
+        uses: ./.github/actions/gate
+        with:
+          target: |
+            main
+            feature
+            task
+          force-labels: |
+            run-VisualTests-Reports
+            run-VisualTests-Dashboards
