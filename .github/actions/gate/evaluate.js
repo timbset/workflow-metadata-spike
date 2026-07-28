@@ -73,6 +73,6 @@ if (eventName === "pull_request" || eventName === "pull_request_target") {
 
 const shouldRun = branchCondition || labelCondition;
 
-console.log(`shouldRun=${shouldRun}`);
-console.log(`runsFor=${JSON.stringify(runsFor)}`);
-console.log(`forceLabels=${JSON.stringify(forceLabels)}`);
+console.log(`should-run=${shouldRun}`);
+console.log(`target=${JSON.stringify(runsFor)}`);
+console.log(`force-labels=${JSON.stringify(forceLabels)}`);
