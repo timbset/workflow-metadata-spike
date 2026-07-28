@@ -37,7 +37,7 @@ runs:
     - id: evaluate
       shell: bash
       env:
-        RUNS_FOR: ${{ inputs.runs-for }}
+        TARGET: ${{ inputs.target }}
         FORCE_LABELS: ${{ inputs.force-labels }}
         EVENT_NAME: ${{ github.event_name }}
         REF_NAME: ${{ github.ref_name }}

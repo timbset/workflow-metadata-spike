@@ -2,7 +2,7 @@ const fs = require("node:fs");
 
 function parseMultiline(value) {
     return value
-        .split("\n")
+        .split('\\n')
         .map(x => x.trim())
         .filter(Boolean);
 }
@@ -11,39 +11,39 @@ function isFeatureBranch(branch) {
     return /^feature\/.+/.test(branch);
 }
 
-const runsForInput = parseMultiline(process.env.RUNS_FOR || "");
+const runsForInput = parseMultiline(process.env.TARGET || "");
 const forceLabelsInput = parseMultiline(process.env.FORCE_LABELS || "");
 
 const eventName = process.env.EVENT_NAME;
 const refName = process.env.REF_NAME;
 const baseRef = process.env.BASE_REF;
 
-const runsFor = {};
+const target = {};
 const forceLabels = {};
 
-runsFor["main"] = false;
-runsFor["feature"] = false;
-runsFor["task"] = false;
+target["main"] = false;
+target["feature"] = false;
+target["task"] = false;
 
 if (refName === "main") {
-    runsFor["main"] = true;
+    target["main"] = true;
 }
 
 if (isFeatureBranch(refName)) {
-    runsFor["feature"] = true;
+    target["feature"] = true;
 }
 
 if (
     eventName === "pull_request" &&
     (baseRef === "main" || isFeatureBranch(baseRef))
 ) {
-    runsFor["task"] = true;
+    target["task"] = true;
 }
 
 let branchCondition = false;
 
 for (const entry of runsForInput) {
-    if (runsFor[entry]) {
+    if (target[entry]) {
         branchCondition = true;
         break;
     }
@@ -74,5 +74,5 @@ if (eventName === "pull_request" || eventName === "pull_request_target") {
 const shouldRun = branchCondition || labelCondition;
 
 console.log(`should-run=${shouldRun}`);
-console.log(`target=${JSON.stringify(runsFor)}`);
+console.log(`target=${JSON.stringify(target)}`);
 console.log(`force-labels=${JSON.stringify(forceLabels)}`);
