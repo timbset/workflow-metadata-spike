@@ -40,15 +40,6 @@ if (
     target["task"] = true;
 }
 
-let branchCondition = false;
-
-for (const entry of runsForInput) {
-    if (target[entry]) {
-        branchCondition = true;
-        break;
-    }
-}
-
 let labelCondition = false;
 
 for (const label of forceLabelsInput) {
@@ -68,6 +59,21 @@ if (eventName === "pull_request" || eventName === "pull_request_target") {
             forceLabels[label] = true;
             labelCondition = true;
         }
+    }
+
+    const prRefName = payload.pull_request?.head?.ref;
+    
+    if (isFeatureBranch(prRefName)) {
+        target["feature"] = true;
+    }
+}
+
+let branchCondition = false;
+
+for (const entry of runsForInput) {
+    if (target[entry]) {
+        branchCondition = true;
+        break;
     }
 }
 
